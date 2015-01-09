@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.odb.myshare"
+    android:versionCode="3"
+    android:versionName="1.0.2" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+
+    <application
+        android:description="@string/AppDesc"
+        android:icon="@drawable/launcher_icon_set"
+        android:label="@string/AppTitle"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="br.odb.myshare.RegisterPeopleActivity"
+            android:label="@string/title_activity_register_people"
+            android:windowSoftInputMode="stateVisible|adjustPan" >
+        </activity>
+        <activity
+            android:name="br.odb.myshare.RegisterProductActivity"
+            android:label="@string/title_activity_register_product"
+            android:windowSoftInputMode="stateVisible|adjustPan" >
+        </activity>
+        <activity
+            android:name="br.odb.myshare.StartNewBarAccount"
+            android:label="@string/title_activity_start_new_bar_account" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="br.odb.myshare.CheckoutActivity"
+            android:label="@string/title_activity_checkout" >
+        </activity>
+        <activity
+            android:name="br.odb.myshare.ShowCreditsActivity"
+            android:label="@string/title_activity_show_credits" >
+        </activity>
+        <activity
+            android:name="br.odb.myshare.ShowFinalCheckoutActivity"
+            android:label="@string/title_activity_show_final_checkout" >
+        </activity>
+    </application>
+
+</manifest>
