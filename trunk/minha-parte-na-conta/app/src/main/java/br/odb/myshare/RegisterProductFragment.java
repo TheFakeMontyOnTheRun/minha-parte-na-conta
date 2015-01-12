@@ -6,10 +6,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +20,9 @@ import android.widget.Spinner;
 import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Item;
 
-public class RegisterProductActivity extends Activity implements OnClickListener {
+public class RegisterProductFragment extends Fragment implements OnClickListener {
 
+    View rootView;
 	Spinner spnProducts;
 	EditText edtProduct;
 	EditText edtCost;
@@ -36,22 +40,6 @@ public class RegisterProductActivity extends Activity implements OnClickListener
 
 		}
 	}
-	
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		
-		Intent intent = new Intent(this, ShowCreditsActivity.class);
-		startActivity(intent);
-		return true;
-	}
-
-	@Override
-	protected void onDestroy() {
-	
-		BarAccount.getCurrentBarAccount().saveAccount( this );
-		
-		super.onDestroy();
-	}
 
 	
 	public void updateUI() {
@@ -60,7 +48,7 @@ public class RegisterProductActivity extends Activity implements OnClickListener
 		Item[] items = new Item[ products.size()];
 		items = products.toArray(items);
 
-		spnProducts.setAdapter(new ProductSpinAdapter(this,
+		spnProducts.setAdapter(new ProductSpinAdapter( getActivity(),
 				android.R.layout.simple_spinner_dropdown_item, items ));
 		
 		
@@ -74,49 +62,41 @@ public class RegisterProductActivity extends Activity implements OnClickListener
 		}
 
 	}
-	
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+
+
+    public static Fragment newInstance() {
+        return new RegisterProductFragment();
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_register_product);
+
+        rootView = inflater.inflate(R.layout.activity_register_product, container, false);
+
+		spnProducts = (Spinner) rootView.findViewById( R.id.spnProducts );
+		edtProduct = (EditText) rootView.findViewById( R.id.edtProduct );
+		edtCost = (EditText) rootView.findViewById( R.id.edtCost );
 		
 		
-		spnProducts = (Spinner) findViewById( R.id.spnProducts );
-		edtProduct = (EditText) findViewById( R.id.edtProduct );
-		edtCost = (EditText) findViewById( R.id.edtCost );
 		
-		
-		
-		btnAdd = (Button) findViewById( R.id.btnAddProduct );
+		btnAdd = (Button) rootView.findViewById( R.id.btnAddProduct );
 		btnAdd.setOnClickListener( this );
 
-		btnDelete = (Button) findViewById( R.id.btnDeleteProduct );
+		btnDelete = (Button) rootView.findViewById( R.id.btnDeleteProduct );
 		btnDelete.setOnClickListener( this );
 		
 		
-		btnNext = (Button) findViewById( R.id.btnGoCheckout );
+		btnNext = (Button) rootView.findViewById( R.id.btnGoCheckout );
 		btnNext.setOnClickListener( this );
 		
-		btnCopy = (Button) findViewById( R.id.btnCopy );
+		btnCopy = (Button) rootView.findViewById( R.id.btnCopy );
 		btnCopy.setOnClickListener( this );		
 		
 		updateUI();
-	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.register_product, menu);
-		return true;
-	}
-	
-	@Override
-	protected void onPause() {
-		if ( BarAccount.getCurrentBarAccount() != null )
-			BarAccount.getCurrentBarAccount().saveAccount( this );
-
-		super.onPause();
+        return rootView;
 	}
 
 
@@ -127,7 +107,7 @@ public class RegisterProductActivity extends Activity implements OnClickListener
 		Item item = null;
 		
 
-		Button btn = (Button) findViewById( R.id.btnDeleteProduct );
+		Button btn = (Button) rootView.findViewById( R.id.btnDeleteProduct );
 		btn.setOnClickListener( this );
 		
 		switch ( v.getId() ) {
@@ -165,13 +145,7 @@ public class RegisterProductActivity extends Activity implements OnClickListener
 				
 				
 				break;			
-				
-				
-			case R.id.btnGoCheckout:
-				
-				Intent intent = new Intent( this, CheckoutActivity.class );
-				startActivity( intent );	
-				break;
+
 		}		
 	}
 }

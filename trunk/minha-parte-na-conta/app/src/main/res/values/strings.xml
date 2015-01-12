@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Minha parte na conta</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Settings</string>
+    <string name="app_name">Minha Parte Na conta</string>
+    <string name="title_section0">Nova conta</string>
+    <string name="title_section1">Produtos consumidos</string>
+    <string name="title_section2">Pessoas na mesa</string>
+    <string name="title_section3">Minha parte</string>
+    <string name="title_section4">Creditos</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_fulllist">Descritivo de contas</string>
+    <string name="action_settings">Settings</string>
+
+
+
     <string name="title_activity_new_bar_account_data_entry">NewBarAccountDataEntryActivity</string>
     <string name="title_activity_register_people">Registro de pessoas</string>
-    <string name="action_settings">Settings</string>
+
     <string name="title_activity_register_product">Registro de produtos</string>
     <string name="title_activity_start_new_bar_account">Minha parte na conta</string>
     <string name="newBarAccount">Nova conta de bar</string>

@@ -26,7 +26,11 @@ public class BarAccount {
 	}
 	
 	public static BarAccount getCurrentBarAccount() {
-		
+
+        if ( currentAccount == null ) {
+            createNewBarAccount();
+        }
+
 		return currentAccount;
 	}	
 

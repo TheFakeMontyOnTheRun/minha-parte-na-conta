@@ -6,10 +6,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +20,7 @@ import android.widget.Spinner;
 import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Person;
 
-public class RegisterPeopleActivity extends Activity implements OnClickListener {
+public class RegisterPeopleFragment extends Fragment implements OnClickListener {
 
 	public class PersonSpinAdapter extends ArrayAdapter<Person> {
 
@@ -28,42 +31,44 @@ public class RegisterPeopleActivity extends Activity implements OnClickListener 
 		}
 	}
 
-	Spinner spnPeople;
+    View rootView;
+
+    Spinner spnPeople;
 	private Button btnAdd;
 	private Button btnDelete;
 	private Button btnNext;
 
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		
-		Intent intent = new Intent(this, ShowCreditsActivity.class);
-		startActivity(intent);
-		return true;
-	}
-
-	
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_register_people);
-
-		spnPeople = (Spinner) findViewById(R.id.spnPerson);
 
 
 
-		btnAdd = (Button) findViewById(R.id.btnAddPerson);
+    public static Fragment newInstance() {
+        return new RegisterPeopleFragment();
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        rootView = inflater.inflate(R.layout.activity_register_people, container, false);
+
+		spnPeople = (Spinner) rootView.findViewById(R.id.spnPerson);
+
+
+
+		btnAdd = (Button) rootView.findViewById(R.id.btnAddPerson);
 		btnAdd.setOnClickListener(this);
 
-		btnDelete = (Button) findViewById(R.id.btnDeletePerson);
+		btnDelete = (Button) rootView.findViewById(R.id.btnDeletePerson);
 		btnDelete.setOnClickListener(this);
 
 
-		btnNext = (Button) findViewById(R.id.btnGoProducts);
+		btnNext = (Button) rootView.findViewById(R.id.btnGoProducts);
 		btnNext.setOnClickListener(this);
 
 		updateUI();
+
+        return rootView;
 	}
 
 	public void updateUI() {
@@ -72,7 +77,7 @@ public class RegisterPeopleActivity extends Activity implements OnClickListener 
 		Person[] persons = new Person[people.size()];
 		persons = people.toArray(persons);
 
-		spnPeople.setAdapter(new PersonSpinAdapter(this,
+		spnPeople.setAdapter(new PersonSpinAdapter( getActivity(),
 				android.R.layout.simple_spinner_dropdown_item, persons));
 		
 		btnDelete.setEnabled( ( spnPeople.getCount() > 0 ) );
@@ -84,37 +89,12 @@ public class RegisterPeopleActivity extends Activity implements OnClickListener 
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		getMenuInflater().inflate(R.menu.register_people, menu);
-		return true;
-	}
-
-	@Override
-	protected void onDestroy() {
-	
-		BarAccount.getCurrentBarAccount().saveAccount( this );
-		
-		super.onDestroy();
-	}
-	
-	@Override
-	protected void onPause() {
-		if ( BarAccount.getCurrentBarAccount() != null )
-			BarAccount.getCurrentBarAccount().saveAccount( this );
-
-		super.onPause();
-	}
-
-
-	
 	public void onClick(View v) {
 
 		Person person;
 		EditText edtPerson;
 				
-		edtPerson = (EditText) findViewById(R.id.edtPerson);
+		edtPerson = (EditText) rootView.findViewById(R.id.edtPerson);
 
 		switch (v.getId()) {
 
@@ -138,13 +118,6 @@ public class RegisterPeopleActivity extends Activity implements OnClickListener 
 				
 				updateUI();
 				break;
-	
-			case R.id.btnGoProducts:
-	
-				Intent intent = new Intent(this, RegisterProductActivity.class);
-				startActivity(intent);
-				break;
 		}
-
 	}
 }

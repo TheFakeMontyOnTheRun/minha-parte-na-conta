@@ -3,14 +3,13 @@ package br.odb.myshare;
 import java.text.NumberFormat;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -23,7 +22,10 @@ import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Item;
 import br.odb.myshare.datamodel.Person;
 
-public class CheckoutActivity extends Activity implements OnItemSelectedListener, OnCheckedChangeListener, OnClickListener  {
+public class CheckoutFragment extends Fragment implements OnItemSelectedListener, OnCheckedChangeListener  {
+
+
+    View rootView;
 
 	Spinner spnProducts;
 	
@@ -54,71 +56,60 @@ public class CheckoutActivity extends Activity implements OnItemSelectedListener
 
 		}
 	}
-	
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		
-		Intent intent = new Intent(this, ShowCreditsActivity.class);
-		startActivity(intent);
-		return true;
-	}
-	
-	@Override
-	protected void onPause() {
-		if ( BarAccount.getCurrentBarAccount() != null )
-			BarAccount.getCurrentBarAccount().saveAccount( this );
 
-		super.onPause();
-	}
-
-	
 	public void updateUI() {
 
 		List<Item> products = BarAccount.getCurrentBarAccount().getItems();
+
+        if ( products == null ) {
+            return;
+        }
+
 		Item[] items = new Item[ products.size()];
 		items = products.toArray(items);
 
-		spnProducts.setAdapter(new ProductSpinAdapter(this,
+		spnProducts.setAdapter(new ProductSpinAdapter( getActivity(),
 				android.R.layout.simple_spinner_dropdown_item, items ));
 		
 		List<Person> people = BarAccount.getCurrentBarAccount().getPeople();
 		Person[] persons = new Person[people.size()];
 		persons = people.toArray(persons);
 
-		spnPeople.setAdapter(new PersonSpinAdapter(this,
-				android.R.layout.simple_spinner_dropdown_item, persons));		
-		
-		
-	}
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_checkout);
-		
-		spnPeople = (Spinner) findViewById( R.id.spnConsumingPerson );
-		spnProducts = (Spinner) findViewById( R.id.spnBougtProduct );
-		tvflatTotal = (TextView) findViewById( R.id.tvFlatTotal );
-		tvfinalTotal = (TextView) findViewById( R.id.tvTotal );
-		tvSharedWith = (TextView) findViewById( R.id.tvSharedWith );
-		chkBought = (CheckBox) findViewById( R.id.chkBought );	
-		
-		spnPeople.setOnItemSelectedListener( this );
-		spnProducts.setOnItemSelectedListener( this );
-		chkBought.setOnCheckedChangeListener( this );
-		
-		findViewById( R.id.btnFinalCheckout ).setOnClickListener( this );
-		
-		updateUI();
-		updateTexts();
+		spnPeople.setAdapter(new PersonSpinAdapter( getActivity(),
+				android.R.layout.simple_spinner_dropdown_item, persons));
+
+
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.checkout, menu);
-		return true;
-	}
+    public static Fragment newInstance() {
+        CheckoutFragment fragment = new CheckoutFragment();
+        return fragment;
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        rootView = inflater.inflate(R.layout.activity_checkout, container, false);
+
+        spnPeople = (Spinner) rootView.findViewById(R.id.spnConsumingPerson);
+        spnProducts = (Spinner) rootView.findViewById(R.id.spnBougtProduct);
+        tvflatTotal = (TextView) rootView.findViewById(R.id.tvFlatTotal);
+        tvfinalTotal = (TextView) rootView.findViewById(R.id.tvTotal);
+        tvSharedWith = (TextView) rootView.findViewById(R.id.tvSharedWith);
+        chkBought = (CheckBox) rootView.findViewById(R.id.chkBought);
+
+        spnPeople.setOnItemSelectedListener( this );
+        spnProducts.setOnItemSelectedListener( this );
+        chkBought.setOnCheckedChangeListener( this );
+
+
+        updateUI();
+        updateTexts();
+
+
+        return rootView;
+    }
 
 	public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 		
@@ -149,7 +140,11 @@ public class CheckoutActivity extends Activity implements OnItemSelectedListener
 	
 	public void updateTexts() {
 		
-		Person person = (Person) spnPeople.getSelectedItem();
+		if ( spnPeople.getChildCount() <= 0 ) {
+            return;
+        }
+
+        Person person = (Person) spnPeople.getSelectedItem();
 		Item item = (Item) spnProducts.getSelectedItem();
 		float share = BarAccount.getCurrentBarAccount().getShare( person );
 		NumberFormat format = NumberFormat.getCurrencyInstance();
@@ -192,10 +187,4 @@ public class CheckoutActivity extends Activity implements OnItemSelectedListener
 		// TODO Auto-generated method stub
 		
 	}
-
-	public void onClick(View v) {
-		Intent intent = new Intent( this, ShowFinalCheckoutActivity.class );
-		this.startActivity( intent );		
-	}
-
 }
