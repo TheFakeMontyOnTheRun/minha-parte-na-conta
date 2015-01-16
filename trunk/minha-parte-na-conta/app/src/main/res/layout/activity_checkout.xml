@@ -77,13 +77,6 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnFinalCheckout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Resumo final" />
-
 </LinearLayout>
 </ScrollView>
 </RelativeLayout>

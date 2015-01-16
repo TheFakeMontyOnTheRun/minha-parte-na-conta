@@ -86,9 +86,7 @@
 			<Button android:id="@+id/btnCopy" android:layout_width="fill_parent"
 				android:layout_height="wrap_content" android:text="@string/copyProduct" />
 
-			<Button android:id="@+id/btnGoCheckout" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:text="@string/GoCheckout" />
-		</LinearLayout>
+</LinearLayout>
 
 
 </ScrollView>

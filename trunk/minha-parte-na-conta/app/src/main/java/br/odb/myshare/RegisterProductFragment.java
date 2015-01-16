@@ -28,7 +28,6 @@ public class RegisterProductFragment extends Fragment implements OnClickListener
 	EditText edtCost;
 	private Button btnAdd;
 	private Button btnDelete;
-	private Button btnNext;
 	private Button btnCopy;
 	
 	
@@ -54,8 +53,7 @@ public class RegisterProductFragment extends Fragment implements OnClickListener
 		
 		btnDelete.setEnabled(  ( spnProducts.getCount() > 0 )  );
 		btnCopy.setEnabled(  ( spnProducts.getCount() > 0 )  );
-		btnNext.setEnabled(  ( spnProducts.getCount() > 0 )  );
-		
+
 		if ( spnProducts.getCount() > 0 ) {
 			
 			spnProducts.setSelection( spnProducts.getCount() - 1, true );
@@ -87,10 +85,7 @@ public class RegisterProductFragment extends Fragment implements OnClickListener
 		btnDelete = (Button) rootView.findViewById( R.id.btnDeleteProduct );
 		btnDelete.setOnClickListener( this );
 		
-		
-		btnNext = (Button) rootView.findViewById( R.id.btnGoCheckout );
-		btnNext.setOnClickListener( this );
-		
+
 		btnCopy = (Button) rootView.findViewById( R.id.btnCopy );
 		btnCopy.setOnClickListener( this );		
 		

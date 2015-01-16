@@ -30,9 +30,6 @@ public class StartNewBarAccountFragment extends Fragment implements OnClickListe
 
         Button btn;
 
-        btn = (Button) rootView.findViewById(R.id.btnContinueAccount);
-        btn.setOnClickListener(this);
-
         btn = (Button) rootView.findViewById(R.id.btnNewBarAccount);
         btn.setOnClickListener(this);
 
@@ -49,9 +46,6 @@ public class StartNewBarAccountFragment extends Fragment implements OnClickListe
 
             case R.id.btnNewBarAccount:
                 BarAccount.getCurrentBarAccount().saveAccount(getActivity());
-                break;
-            case R.id.btnContinueAccount:
-                BarAccount.getCurrentBarAccount().restoreAccount(getActivity());
                 break;
         }
     }

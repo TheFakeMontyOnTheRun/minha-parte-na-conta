@@ -36,7 +36,6 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener 
     Spinner spnPeople;
 	private Button btnAdd;
 	private Button btnDelete;
-	private Button btnNext;
 
 
 
@@ -62,10 +61,6 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener 
 		btnDelete = (Button) rootView.findViewById(R.id.btnDeletePerson);
 		btnDelete.setOnClickListener(this);
 
-
-		btnNext = (Button) rootView.findViewById(R.id.btnGoProducts);
-		btnNext.setOnClickListener(this);
-
 		updateUI();
 
         return rootView;
@@ -81,7 +76,6 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener 
 				android.R.layout.simple_spinner_dropdown_item, persons));
 		
 		btnDelete.setEnabled( ( spnPeople.getCount() > 0 ) );
-		btnNext.setEnabled(  ( spnPeople.getCount() > 0 )  );
 		
 		if ( spnPeople.getCount() > 0 ) {
 			

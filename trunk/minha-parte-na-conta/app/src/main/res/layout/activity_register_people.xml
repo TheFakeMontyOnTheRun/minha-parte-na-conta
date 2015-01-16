@@ -71,12 +71,6 @@
         android:layout_height="wrap_content"
         android:text="@string/deletePerson" />
 
-    <Button
-        android:id="@+id/btnGoProducts"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/doneRegistering" />
-
 </LinearLayout>
 </ScrollView>
 </RelativeLayout>

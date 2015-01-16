@@ -32,13 +32,6 @@
         android:layout_marginTop="46dp"
         android:text="@string/newBarAccount" />
 
-    <Button
-        android:id="@+id/btnContinueAccount"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:text="@string/continuePreviousAccount" />
-
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="fill_parent"
