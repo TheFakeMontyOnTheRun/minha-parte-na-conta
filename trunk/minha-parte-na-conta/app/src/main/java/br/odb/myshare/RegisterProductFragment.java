@@ -28,7 +28,7 @@ public class RegisterProductFragment extends Fragment implements OnClickListener
 	EditText edtCost;
 	private Button btnAdd;
 	private Button btnDelete;
-	private Button btnCopy;
+//	private Button btnCopy;
 	
 	
 	public class ProductSpinAdapter extends ArrayAdapter<Item> {
@@ -52,7 +52,7 @@ public class RegisterProductFragment extends Fragment implements OnClickListener
 		
 		
 		btnDelete.setEnabled(  ( spnProducts.getCount() > 0 )  );
-		btnCopy.setEnabled(  ( spnProducts.getCount() > 0 )  );
+//		btnCopy.setEnabled(  ( spnProducts.getCount() > 0 )  );
 
 		if ( spnProducts.getCount() > 0 ) {
 			
@@ -86,8 +86,8 @@ public class RegisterProductFragment extends Fragment implements OnClickListener
 		btnDelete.setOnClickListener( this );
 		
 
-		btnCopy = (Button) rootView.findViewById( R.id.btnCopy );
-		btnCopy.setOnClickListener( this );		
+//		btnCopy = (Button) rootView.findViewById( R.id.btnCopy );
+//		btnCopy.setOnClickListener( this );
 		
 		updateUI();
 
@@ -107,14 +107,14 @@ public class RegisterProductFragment extends Fragment implements OnClickListener
 		
 		switch ( v.getId() ) {
 		
-			case R.id.btnCopy:
-
-				if ( spnProducts.getChildCount() > 0 ) {
-					
-					item = (Item) spnProducts.getSelectedItem();
-					edtProduct.setText( item.getName() );
-					edtCost.setText( Float.toString( item.getCost() ) );				
-				}
+//			case R.id.btnCopy:
+//
+//				if ( spnProducts.getChildCount() > 0 ) {
+//
+//					item = (Item) spnProducts.getSelectedItem();
+//					edtProduct.setText( item.getName() );
+//					edtCost.setText( Float.toString( item.getCost() ) );
+//				}
 		
 			case R.id.btnAddProduct:
 				
