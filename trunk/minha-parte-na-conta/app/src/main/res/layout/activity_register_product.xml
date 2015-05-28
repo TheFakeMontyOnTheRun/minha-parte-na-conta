@@ -99,6 +99,7 @@
 		android:layout_marginRight="20dp"
 		android:elevation="50dp"
 		android:src="@drawable/add_food"
-		android:background="@drawable/fab_shadow" />
+        android:background="@drawable/ripple"
+        />
 
 </RelativeLayout>
