@@ -88,17 +88,5 @@
 
 </ScrollView>
 
-	<ImageButton
-		android:layout_width="75dp"
-		android:layout_height="75dp"
-		android:id="@+id/imageButton"
-		android:layout_alignParentBottom="true"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentEnd="true"
-		android:layout_marginBottom="20dp"
-		android:layout_marginRight="20dp"
-		android:elevation="50dp"
-		android:src="@drawable/add_food"
-		android:background="@drawable/fab_shadow" />
 
 </RelativeLayout>

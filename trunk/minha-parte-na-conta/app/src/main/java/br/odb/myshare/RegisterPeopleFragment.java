@@ -58,6 +58,8 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener 
 		btnAdd = (Button) rootView.findViewById(R.id.btnAddPerson);
 		btnAdd.setOnClickListener(this);
 
+		rootView.findViewById( R.id.add_person_fab ).setOnClickListener( this );
+
 		btnDelete = (Button) rootView.findViewById(R.id.btnDeletePerson);
 		btnDelete.setOnClickListener(this);
 
@@ -93,6 +95,7 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener 
 		switch (v.getId()) {
 
 			case R.id.btnAddPerson:
+			case R.id.add_person_fab:
 	
 				if ( edtPerson.getText().toString().length() > 0 ) {
 					

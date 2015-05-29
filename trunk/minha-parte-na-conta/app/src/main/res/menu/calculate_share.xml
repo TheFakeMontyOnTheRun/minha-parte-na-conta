@@ -3,4 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".CalculateShareActivity">
     <item android:id="@+id/action_example" android:title="@string/action_fulllist"
         app:showAsAction="withText|ifRoom" />
+
+    <item android:id="@+id/menu_item_show_subtitle"
+        android:title="Add"
+        android:showAsAction="never"/>
 </menu>
