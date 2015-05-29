@@ -84,9 +84,5 @@
 		android:id="@+id/listView3" />
 
 </LinearLayout>
-
-
 </ScrollView>
-
-
 </RelativeLayout>
