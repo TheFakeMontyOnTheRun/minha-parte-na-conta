@@ -1,13 +1,18 @@
 package br.odb.myshare;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,27 +22,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Person;
+import br.odb.myshare.recyclerview.person.Adapter;
 
-public class RegisterPeopleFragment extends Fragment implements OnClickListener {
-
-	public class PersonSpinAdapter extends ArrayAdapter<Person> {
-
-		public PersonSpinAdapter(Context context, int textViewResourceId,
-				Person[] values) {
-			super(context, textViewResourceId, values);
-
-		}
-	}
+public class RegisterPeopleFragment extends Fragment implements OnClickListener, Observer {
 
     View rootView;
 
-    Spinner spnPeople;
-	private Button btnAdd;
-	private Button btnDelete;
-
-
+	RecyclerView rclPeople;
 
 
     public static Fragment newInstance() {
@@ -51,70 +46,51 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener 
 
         rootView = inflater.inflate(R.layout.activity_register_people, container, false);
 
-		spnPeople = (Spinner) rootView.findViewById(R.id.spnPerson);
+		this.rclPeople = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+		rclPeople.setLayoutManager( new LinearLayoutManager( getActivity()) );
+		rclPeople.setAdapter( new Adapter( this ) );
 
-
-
-		btnAdd = (Button) rootView.findViewById(R.id.btnAddPerson);
-		btnAdd.setOnClickListener(this);
 
 		rootView.findViewById( R.id.add_person_fab ).setOnClickListener( this );
+		rootView.findViewById( R.id.deleteIt ).setOnClickListener( this );
 
-		btnDelete = (Button) rootView.findViewById(R.id.btnDeletePerson);
-		btnDelete.setOnClickListener(this);
+		BarAccount.getCurrentBarAccount().deleteObservers();
+		BarAccount.getCurrentBarAccount().addObserver( this );
 
 		updateUI();
 
         return rootView;
 	}
 
+
 	public void updateUI() {
-
-		List<Person> people = BarAccount.getCurrentBarAccount().getPeople();
-		Person[] persons = new Person[people.size()];
-		persons = people.toArray(persons);
-
-		spnPeople.setAdapter(new PersonSpinAdapter( getActivity(),
-				android.R.layout.simple_spinner_dropdown_item, persons));
-		
-		btnDelete.setEnabled( ( spnPeople.getCount() > 0 ) );
-		
-		if ( spnPeople.getCount() > 0 ) {
-			
-			spnPeople.setSelection( spnPeople.getCount() - 1, true );
-		}
+		( (Adapter )rclPeople.getAdapter() ).setPeople( BarAccount.getCurrentBarAccount().getPeople() );
 	}
+
+
+
 
 	public void onClick(View v) {
 
-		Person person;
-		EditText edtPerson;
-				
-		edtPerson = (EditText) rootView.findViewById(R.id.edtPerson);
-
 		switch (v.getId()) {
 
-			case R.id.btnAddPerson:
-			case R.id.add_person_fab:
-	
-				if ( edtPerson.getText().toString().length() > 0 ) {
-					
-					person = new Person(edtPerson.getText().toString());
-					BarAccount.getCurrentBarAccount().addNewPerson(person);
-					edtPerson.setText("");
-					
-					updateUI();
-					
-				}
+			case R.id.deleteIt:
+				ViewPerson.viewPerson( BarAccount.getCurrentBarAccount().getPeople().get( 0 ), getActivity() );
 				break;
 
-			case R.id.btnDeletePerson:
-	
-				person = (Person) spnPeople.getSelectedItem();
-				BarAccount.getCurrentBarAccount().removePerson(person);
-				
-				updateUI();
+			case R.id.add_person_fab:
+
+				AddPersonFragment currentlyShownDialog = new AddPersonFragment();
+				currentlyShownDialog.show( this.getFragmentManager(), "add_person" );
 				break;
+			default:
+				Person p = BarAccount.getCurrentBarAccount().peopleWithName( ((TextView) v.findViewById(R.id.tvPersonNameCard)).getText().toString() );
+				ViewPerson.viewPerson( p, getActivity() );
 		}
+	}
+
+	@Override
+	public void update(Observable observable, Object o) {
+		updateUI();
 	}
 }

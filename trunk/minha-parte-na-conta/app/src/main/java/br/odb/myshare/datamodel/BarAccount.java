@@ -9,13 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
 
 import android.content.Context;
 
+import br.odb.myshare.PeopleFragment;
 
 
-public class BarAccount {
+public class BarAccount extends Observable {
 	
 	//------static stuff-----------------
 	private static BarAccount currentAccount;
@@ -53,47 +55,60 @@ public class BarAccount {
 	public void addNewPerson( Person newPerson ) {
 		
 		people.add( newPerson );
+		updateObservers();
 	}
-	
+
+	private void updateObservers() {
+		setChanged();
+		notifyObservers();
+	}
+
 	public void addNewItem( Item newItem ) {
 		
 		checkList.put( newItem, new ArrayList< Person >() );
 		itemRepository.add( newItem );
+		this.updateObservers();
 	}
 
-	public void removePeopleWithName( String name ) {
-		
-		Person toDelete = null;
-		
+	public Person peopleWithName( String name ) {
+
+		Person toReturn = null;
+
 		for( Person person : people ) {
-			
+
 			if ( person.getName().equals( name ) ) {
-				toDelete = person;
-			}				
+				toReturn = person;
+			}
 		}
-		
-		people.remove( toDelete );
+
+		return toReturn;
 	}
 
 	public void removePerson(Person person) {
 		
 		people.remove( person );
+		this.updateObservers();
 	}
 
 	public void removeProduct(Item item) {
 
 		itemRepository.remove( item );
+		this.updateObservers();
 	}
 
 	public void purchase(Person person, Item item) {
 
 		ArrayList< Person > costumers = checkList.get( item );
 		
-		if ( !costumers.contains( person ) )
+		if ( !costumers.contains( person ) ) {
 			costumers.add( person );
+		}
 		
-		if ( !person.itemsConsumed.contains( item ) )
+		if ( !person.itemsConsumed.contains( item ) ) {
 			person.itemsConsumed.add( item );
+		}
+
+		this.updateObservers();
 	}
 
 	public void cancelPurchase(Person person, Item item) {
@@ -101,6 +116,8 @@ public class BarAccount {
 		ArrayList< Person > costumers = checkList.get( item );
 		costumers.remove( person );		
 		person.itemsConsumed.remove( item );
+
+		this.updateObservers();
 	}
 
 	public float getShare(Person person) {
@@ -128,7 +145,7 @@ public class BarAccount {
 	public void saveAccount( Context context ) {
 
 	String FILENAME = "data.dat";
-    	
+
 
     	FileOutputStream fos;
     	DataOutputStream dos;

@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import br.odb.myshare.datamodel.BarAccount;
 
 
-public class CalculateShareActivity extends ActionBarActivity
+public class CalculateShareActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -57,7 +58,7 @@ public class CalculateShareActivity extends ActionBarActivity
         super.onPause();
 
         if ( BarAccount.getCurrentBarAccount() != null ) {
-            BarAccount.getCurrentBarAccount().saveAccount( this );
+            BarAccount.getCurrentBarAccount().saveAccount(this);
         }
     }
 
