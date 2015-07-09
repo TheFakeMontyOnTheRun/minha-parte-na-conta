@@ -14,25 +14,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivPersonPhoto"
-        android:layout_gravity="left|bottom"
-        android:src="@drawable/add_person"
-        android:layout_above="@+id/btnOkAddPerson"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ibtTakePicture"
-        android:layout_gravity="right|bottom"
-        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
-        android:layout_above="@+id/btnOkAddPerson"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/ibtPersonPhoto"
+        android:layout_gravity="left|bottom"
+        android:src="@drawable/add_person"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -42,8 +32,9 @@
         android:ems="10"
         android:id="@+id/edtAddPersonName"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/ibtPersonPhoto"
+        android:layout_toEndOf="@+id/ibtPersonPhoto"
+        android:layout_alignBottom="@+id/ibtPersonPhoto" />
 </RelativeLayout>

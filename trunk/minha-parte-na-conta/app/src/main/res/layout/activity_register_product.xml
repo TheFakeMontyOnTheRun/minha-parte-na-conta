@@ -1,88 +1,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-	tools:context=".StartNewBarAccount" >
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 
-	<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-		android:background="#933">
-    
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-	android:elevation="10dp"
-	android:background="#FFF">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".StartNewBarAccount">
 
-			<Spinner android:id="@+id/spnProducts" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" />
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/product_recycler_view"
+		android:scrollbars="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		/>
 
-			<LinearLayout
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_marginTop="5dp"
-			    android:background="#77ffffff"
-			    android:paddingTop="5dp" >
-
-			    <TextView
-			        android:id="@+id/textView1"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:text="@string/name"
-			        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-			    <EditText
-			        android:id="@+id/edtProduct"
-			        android:layout_width="0dip"
-			        android:layout_height="wrap_content"
-			        android:layout_weight="0.28"
-			        android:ems="10"
-			        android:inputType="textCapWords|textAutoComplete" >
-
-			        <requestFocus />
-
-			    </EditText>
-
-			</LinearLayout>
-
-			<LinearLayout
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-			    android:layout_marginBottom="5dp"
-			    android:background="#77ffffff"
-			    android:paddingBottom="5dp" >
-
-				<TextView
-				    android:id="@+id/textView2"
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:text="@string/price"
-				    android:textAppearance="?android:attr/textAppearanceMedium" />
-
-				<EditText
-				    android:id="@+id/edtCost"
-				    android:layout_width="match_parent"
-				    android:layout_height="wrap_content"
-				    android:ems="10"
-				    android:inputType="number|numberSigned|numberDecimal" >
-				</EditText>
-
-			</LinearLayout>
-
-			<Button android:id="@+id/btnAddProduct" android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:text="@string/AddNewProduct" />
-
-			<Button android:id="@+id/btnDeleteProduct"
-				android:layout_width="fill_parent" android:layout_height="wrap_content"
-				android:text="@string/DeleteProduct" />
-
-	<ListView
+	<android.support.design.widget.FloatingActionButton
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:id="@+id/listView3" />
+		android:layout_margin="40dp"
+		android:clickable="true"
+		android:src="@android:drawable/ic_input_add"
+		android:layout_gravity="end|bottom"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentEnd="true"
+		app:rippleColor="@android:color/background_dark"
+		android:id="@+id/add_product_fab"
+		app:borderWidth="0dp"
+		/>
 
-</LinearLayout>
-</ScrollView>
 </RelativeLayout>

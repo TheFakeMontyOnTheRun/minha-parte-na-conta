@@ -1,146 +1,74 @@
 package br.odb.myshare;
 
-import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.TextView;
+
 import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Item;
+import br.odb.myshare.recyclerview.product.Adapter;
 
-public class RegisterProductFragment extends Fragment implements OnClickListener {
+public class RegisterProductFragment extends Fragment implements OnClickListener, Observer {
 
-    View rootView;
-	Spinner spnProducts;
-	EditText edtProduct;
-	EditText edtCost;
-	private Button btnAdd;
-	private Button btnDelete;
-//	private Button btnCopy;
-	
-	
-	public class ProductSpinAdapter extends ArrayAdapter<Item> {
+	View rootView;
 
-		public ProductSpinAdapter(Context context, int textViewResourceId,
-				Item[] values) {
-			super(context, textViewResourceId, values);
+	RecyclerView rclProduct;
 
-		}
+	public static Fragment newInstance() {
+		return new RegisterProductFragment();
 	}
 
-	
-	public void updateUI() {
-
-		List<Item> products = BarAccount.getCurrentBarAccount().getItems();
-		Item[] items = new Item[ products.size()];
-		items = products.toArray(items);
-
-		spnProducts.setAdapter(new ProductSpinAdapter( getActivity(),
-				android.R.layout.simple_spinner_dropdown_item, items ));
-		
-		
-		btnDelete.setEnabled(  ( spnProducts.getCount() > 0 )  );
-//		btnCopy.setEnabled(  ( spnProducts.getCount() > 0 )  );
-
-		if ( spnProducts.getCount() > 0 ) {
-			
-			spnProducts.setSelection( spnProducts.getCount() - 1, true );
-		}
-
-	}
-
-
-    public static Fragment newInstance() {
-        return new RegisterProductFragment();
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-        rootView = inflater.inflate(R.layout.activity_register_product, container, false);
+		rootView = inflater.inflate(R.layout.activity_register_product, container, false);
 
-		spnProducts = (Spinner) rootView.findViewById( R.id.spnProducts );
-		edtProduct = (EditText) rootView.findViewById( R.id.edtProduct );
-		edtCost = (EditText) rootView.findViewById( R.id.edtCost );
-		
-		
-		
-		btnAdd = (Button) rootView.findViewById( R.id.btnAddProduct );
-		btnAdd.setOnClickListener( this );
+		this.rclProduct = (RecyclerView) rootView.findViewById(R.id.product_recycler_view);
+		rclProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
+		rclProduct.setAdapter(new Adapter(this));
 
-		btnDelete = (Button) rootView.findViewById( R.id.btnDeleteProduct );
-		btnDelete.setOnClickListener( this );
-		
+		rootView.findViewById( R.id.add_product_fab ).setOnClickListener( this );
 
-//		btnCopy = (Button) rootView.findViewById( R.id.btnCopy );
-//		btnCopy.setOnClickListener( this );
-		
+		BarAccount.getCurrentBarAccount().deleteObservers();
+		BarAccount.getCurrentBarAccount().addObserver(this);
+
 		updateUI();
 
-        return rootView;
+		return rootView;
 	}
 
+	public void updateUI() {
+		( (Adapter ) rclProduct.getAdapter() ).setProducts(BarAccount.getCurrentBarAccount().getItems());
+	}
 
 	public void onClick(View v) {
-		
-		float cost = 0;
-		String name = null;
-		Item item = null;
-		
 
-		Button btn = (Button) rootView.findViewById( R.id.btnDeleteProduct );
-		btn.setOnClickListener( this );
-		
-		switch ( v.getId() ) {
-		
-//			case R.id.btnCopy:
-//
-//				if ( spnProducts.getChildCount() > 0 ) {
-//
-//					item = (Item) spnProducts.getSelectedItem();
-//					edtProduct.setText( item.getName() );
-//					edtCost.setText( Float.toString( item.getCost() ) );
-//				}
-		
-			case R.id.btnAddProduct:
-				
-				if ( edtProduct.getText().toString().length() > 0 && edtCost.getText().toString().length() > 0 ) {
-					
-					name = edtProduct.getText().toString();
-					cost = Float.parseFloat( edtCost.getText().toString() );
-					
-					item = new Item( name, cost );
-					BarAccount.getCurrentBarAccount().addNewItem( item );
-					edtProduct.setText( "" );
-					edtCost.setText( "" );				
-					
-					updateUI();
-				}
+		switch (v.getId()) {
+
+			case R.id.add_product_fab:
+
+				AddProductFragment currentlyShownDialog = new AddProductFragment();
+				currentlyShownDialog.show( this.getFragmentManager(), "add_product" );
 				break;
-				
-			case R.id.btnDeleteProduct:
-				
-				item = (Item) spnProducts.getSelectedItem();
-				BarAccount.getCurrentBarAccount().removeProduct( item );
-				updateUI();
-				
-				
-				break;			
+			default:
+				Item i = BarAccount.getCurrentBarAccount().productWithName(((TextView) v.findViewById(R.id.tvProductNameCard)).getText().toString());
+				ViewProduct.viewProduct(i, getActivity());
+		}
+	}
 
-		}		
+	@Override
+	public void update(Observable observable, Object o) {
+		updateUI();
 	}
 }

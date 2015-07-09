@@ -241,4 +241,17 @@ public class BarAccount extends Observable {
 			e.printStackTrace();
 		}
 	}
+
+	public Item productWithName(String name) {
+		Item toReturn = null;
+
+		for( Item item : this.getItems() ) {
+
+			if ( item.getName().equals( name ) ) {
+				toReturn = item;
+			}
+		}
+
+		return toReturn;
+	}
 }

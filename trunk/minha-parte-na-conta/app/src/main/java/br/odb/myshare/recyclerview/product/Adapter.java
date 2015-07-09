@@ -1,4 +1,4 @@
-package br.odb.myshare.recyclerview.person;
+package br.odb.myshare.recyclerview.product;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.odb.myshare.R;
-import br.odb.myshare.RegisterPeopleFragment;
-import br.odb.myshare.datamodel.Person;
+import br.odb.myshare.datamodel.Item;
 
 /**
  * Created by monty on 6/27/15.
@@ -25,52 +24,52 @@ public class Adapter extends RecyclerView.Adapter {
         this.itemClickListener = listener;
     }
 
-    private class PersonViewHolder extends RecyclerView.ViewHolder {
+    private class ProductViewHolder extends RecyclerView.ViewHolder {
 
         private final View view;
 
-        public PersonViewHolder(View itemView) {
+        public ProductViewHolder(View itemView) {
             super(itemView);
 
             this.view = itemView;
         }
     }
 
-    final private List<Person> people = new ArrayList<>();
+    final private List<Item> products = new ArrayList<>();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.person_layout, parent, false);
+                .inflate(R.layout.product_layout, parent, false);
 
 
         v.setOnClickListener( this.itemClickListener );
 
-        PersonViewHolder vh = new PersonViewHolder(v);
+        ProductViewHolder vh = new ProductViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        Person person = people.get(position);
+        Item product = products.get(position);
 
-        ( (TextView) (( PersonViewHolder) holder ).view.findViewById( R.id.tvPersonNameCard)).setText( person.getName() );
+        ( (TextView) ((ProductViewHolder) holder ).view.findViewById( R.id.tvProductNameCard)).setText(product.getName());
 
-        if ( person.getPhoto() != null ) {
-            ( (ImageView) (( PersonViewHolder) holder ).view.findViewById( R.id.ivPersonMainPhoto ) ).setImageBitmap(person.getPhoto());
+        if ( product.getPhoto() != null ) {
+            ( (ImageView) ((ProductViewHolder) holder ).view.findViewById( R.id.ivProductMainPhoto ) ).setImageBitmap(product.getPhoto());
         }
     }
 
     @Override
     public int getItemCount() {
-        return people.size();
+        return products.size();
     }
 
-    public void setPeople( List< Person > people ) {
-        this.people.clear();
-        this.people.addAll( people );
+    public void setProducts(List<Item> products) {
+        this.products.clear();
+        this.products.addAll(products);
         this.notifyDataSetChanged();
     }
 }

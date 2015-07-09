@@ -2,7 +2,7 @@ package br.odb.myshare;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +39,7 @@ public class PeopleFragment extends Fragment implements AbsListView.OnItemClickL
      */
     private ListAdapter mAdapter;
 
-    // TODO: Rename and change types of parameters
-    public static PeopleFragment newInstance(String param1, String param2) {
+    public static PeopleFragment newInstance() {
         PeopleFragment fragment = new PeopleFragment();
         return fragment;
     }
@@ -73,23 +72,6 @@ public class PeopleFragment extends Fragment implements AbsListView.OnItemClickL
         mListView.setOnItemClickListener(this);
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @Override

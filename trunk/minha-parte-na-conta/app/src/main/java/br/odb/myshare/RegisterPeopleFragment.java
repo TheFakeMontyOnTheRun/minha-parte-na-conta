@@ -34,11 +34,9 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener,
 
 	RecyclerView rclPeople;
 
-
     public static Fragment newInstance() {
         return new RegisterPeopleFragment();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,13 +44,11 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener,
 
         rootView = inflater.inflate(R.layout.activity_register_people, container, false);
 
-		this.rclPeople = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+		this.rclPeople = (RecyclerView) rootView.findViewById(R.id.person_recycler_view);
 		rclPeople.setLayoutManager( new LinearLayoutManager( getActivity()) );
 		rclPeople.setAdapter( new Adapter( this ) );
 
-
 		rootView.findViewById( R.id.add_person_fab ).setOnClickListener( this );
-		rootView.findViewById( R.id.deleteIt ).setOnClickListener( this );
 
 		BarAccount.getCurrentBarAccount().deleteObservers();
 		BarAccount.getCurrentBarAccount().addObserver( this );
@@ -62,24 +58,15 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener,
         return rootView;
 	}
 
-
 	public void updateUI() {
 		( (Adapter )rclPeople.getAdapter() ).setPeople( BarAccount.getCurrentBarAccount().getPeople() );
 	}
-
-
-
 
 	public void onClick(View v) {
 
 		switch (v.getId()) {
 
-			case R.id.deleteIt:
-				ViewPerson.viewPerson( BarAccount.getCurrentBarAccount().getPeople().get( 0 ), getActivity() );
-				break;
-
 			case R.id.add_person_fab:
-
 				AddPersonFragment currentlyShownDialog = new AddPersonFragment();
 				currentlyShownDialog.show( this.getFragmentManager(), "add_person" );
 				break;

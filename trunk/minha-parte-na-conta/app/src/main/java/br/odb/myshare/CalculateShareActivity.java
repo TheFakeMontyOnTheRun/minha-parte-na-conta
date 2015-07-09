@@ -103,6 +103,15 @@ public class CalculateShareActivity extends AppCompatActivity
                         .commit();
 
                 break;
+
+            case 5:
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, PeopleFragment.newInstance() )
+                        .commit();
+
+                break;
+
         }
     }
 
@@ -132,6 +141,11 @@ public class CalculateShareActivity extends AppCompatActivity
             case 4:
                 mTitle = getString(R.string.title_section4);
                 break;
+
+            case 5:
+                mTitle = getString(R.string.title_section5);
+                break;
+
 
         }
     }

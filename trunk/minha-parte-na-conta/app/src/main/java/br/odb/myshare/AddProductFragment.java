@@ -13,14 +13,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import br.odb.myshare.datamodel.BarAccount;
+import br.odb.myshare.datamodel.Item;
 import br.odb.myshare.datamodel.Person;
 
-public class AddPersonFragment extends DialogFragment implements View.OnClickListener {
-    private EditText edtPersonName;
-    private ImageButton ibtPersonPhoto;
+public class AddProductFragment extends DialogFragment implements View.OnClickListener {
+    private EditText edtProductName;
+    private EditText edtProductPrice;
+    private ImageButton ibtProductPhoto;
     private Bitmap currentPhoto;
 
-    public AddPersonFragment() {
+    public AddProductFragment() {
     }
 
     @Override
@@ -32,27 +34,28 @@ public class AddPersonFragment extends DialogFragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_add_person, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_add_product, container, false);
 
-        this.edtPersonName = (EditText) rootView.findViewById( R.id.edtAddPersonName );
-        this.ibtPersonPhoto = (ImageButton) rootView.findViewById( R.id.ibtPersonPhoto );
+        this.edtProductName = (EditText) rootView.findViewById( R.id.edtAddProductName );
+        this.edtProductPrice = (EditText) rootView.findViewById( R.id.edtProductPrice );
+        this.ibtProductPhoto = (ImageButton) rootView.findViewById( R.id.ibtProductPhoto );
 
-        rootView.findViewById( R.id.ibtPersonPhoto ).setOnClickListener( this );
-        rootView.findViewById( R.id.btnOkAddPerson ).setOnClickListener( this );
+        rootView.findViewById( R.id.ibtProductPhoto ).setOnClickListener( this );
+        rootView.findViewById( R.id.btnOkAddProduct ).setOnClickListener( this );
         return rootView;
     }
 
     @Override
     public void onClick(View view) {
         switch ( view.getId() ) {
-            case R.id.btnOkAddPerson:
-                Person person = new Person(edtPersonName.getText().toString());
-                person.addBitmap( currentPhoto );
-				BarAccount.getCurrentBarAccount().addNewPerson(person);
+            case R.id.btnOkAddProduct:
+                Item item = new Item(edtProductName.getText().toString(), Float.parseFloat( edtProductPrice.getText().toString() ));
+                item.addBitmap( currentPhoto );
+				BarAccount.getCurrentBarAccount().addNewItem(item);
                 this.dismiss();
                 break;
 
-            case R.id.ibtPersonPhoto:
+            case R.id.ibtProductPhoto:
                 dispatchTakePictureIntent();
                 break;
         }
@@ -72,7 +75,7 @@ public class AddPersonFragment extends DialogFragment implements View.OnClickLis
         if (requestCode == REQUEST_IMAGE_CAPTURE  ) { //&& resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             currentPhoto = (Bitmap) extras.get("data");
-            ibtPersonPhoto.setImageBitmap(currentPhoto);
+            ibtProductPhoto.setImageBitmap(currentPhoto);
         }
     }
 }
