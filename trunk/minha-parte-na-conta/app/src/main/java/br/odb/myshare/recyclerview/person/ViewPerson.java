@@ -1,19 +1,17 @@
-package br.odb.myshare;
+package br.odb.myshare.recyclerview.person;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import br.odb.myshare.R;
 import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Person;
 
@@ -36,7 +34,7 @@ public class ViewPerson extends DialogFragment implements View.OnClickListener {
 
         //this is getting ridiculous
         Bundle bundle = new Bundle();
-        bundle.putSerializable( "person", person );
+        bundle.putParcelable( "person", person );
         thisDialog.setArguments( bundle );
     }
 
@@ -44,7 +42,7 @@ public class ViewPerson extends DialogFragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.person = (Person) getArguments().getSerializable( "person");
+        this.person = (Person) getArguments().getParcelable( "person");
     }
 
     @Override

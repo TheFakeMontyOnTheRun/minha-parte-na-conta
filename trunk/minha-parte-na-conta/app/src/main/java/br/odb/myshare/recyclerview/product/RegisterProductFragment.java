@@ -1,4 +1,4 @@
-package br.odb.myshare;
+package br.odb.myshare.recyclerview.product;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -14,9 +14,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import br.odb.myshare.DividerItemDecoration;
+import br.odb.myshare.R;
 import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Item;
-import br.odb.myshare.recyclerview.product.Adapter;
 
 public class RegisterProductFragment extends Fragment implements OnClickListener, Observer {
 
@@ -37,6 +38,7 @@ public class RegisterProductFragment extends Fragment implements OnClickListener
 		this.rclProduct = (RecyclerView) rootView.findViewById(R.id.product_recycler_view);
 		rclProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
 		rclProduct.setAdapter(new Adapter(this));
+		rclProduct.addItemDecoration( new DividerItemDecoration((int) (5 * getResources().getDisplayMetrics().density)));
 
 		rootView.findViewById( R.id.add_product_fab ).setOnClickListener( this );
 

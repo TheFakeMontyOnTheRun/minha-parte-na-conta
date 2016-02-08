@@ -1,32 +1,23 @@
-package br.odb.myshare;
+package br.odb.myshare.recyclerview.person;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
+import br.odb.myshare.DividerItemDecoration;
+import br.odb.myshare.R;
 import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Person;
-import br.odb.myshare.recyclerview.person.Adapter;
 
 public class RegisterPeopleFragment extends Fragment implements OnClickListener, Observer {
 
@@ -45,8 +36,9 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener,
         rootView = inflater.inflate(R.layout.activity_register_people, container, false);
 
 		this.rclPeople = (RecyclerView) rootView.findViewById(R.id.person_recycler_view);
-		rclPeople.setLayoutManager( new LinearLayoutManager( getActivity()) );
-		rclPeople.setAdapter( new Adapter( this ) );
+		rclPeople.setLayoutManager(new LinearLayoutManager(getActivity()));
+		rclPeople.setAdapter(new Adapter(this));
+		rclPeople.addItemDecoration( new DividerItemDecoration((int) (5 * getResources().getDisplayMetrics().density)));
 
 		rootView.findViewById( R.id.add_person_fab ).setOnClickListener( this );
 
@@ -72,7 +64,7 @@ public class RegisterPeopleFragment extends Fragment implements OnClickListener,
 				break;
 			default:
 				Person p = BarAccount.getCurrentBarAccount().peopleWithName( ((TextView) v.findViewById(R.id.tvPersonNameCard)).getText().toString() );
-				ViewPerson.viewPerson( p, getActivity() );
+				ViewPerson.viewPerson(p, getActivity());
 		}
 	}
 

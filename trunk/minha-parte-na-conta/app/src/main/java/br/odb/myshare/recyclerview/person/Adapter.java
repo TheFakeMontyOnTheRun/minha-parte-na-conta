@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.odb.myshare.R;
-import br.odb.myshare.RegisterPeopleFragment;
 import br.odb.myshare.datamodel.Person;
 
 /**

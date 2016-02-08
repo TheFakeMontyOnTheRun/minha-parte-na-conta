@@ -1,20 +1,17 @@
 package br.odb.myshare;
 
-import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
 
 import br.odb.myshare.datamodel.BarAccount;
+import br.odb.myshare.recyclerview.person.PeopleFragment;
+import br.odb.myshare.recyclerview.person.RegisterPeopleFragment;
+import br.odb.myshare.recyclerview.product.RegisterProductFragment;
 
 
 public class CalculateShareActivity extends AppCompatActivity
@@ -46,20 +43,17 @@ public class CalculateShareActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-        BarAccount.getCurrentBarAccount().saveAccount( this );
-
-        super.onDestroy();
+        outState.putParcelable( "state", BarAccount.getCurrentBarAccount());
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
 
-        if ( BarAccount.getCurrentBarAccount() != null ) {
-            BarAccount.getCurrentBarAccount().saveAccount(this);
-        }
+        BarAccount.createFrom( savedInstanceState.getParcelable( "state" ) );
     }
 
     @Override

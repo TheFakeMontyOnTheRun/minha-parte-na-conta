@@ -13,15 +13,18 @@ import java.util.Observable;
 
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import br.odb.myshare.PeopleFragment;
 
-
-public class BarAccount extends Observable {
+public class BarAccount extends Observable implements Parcelable {
 	
 	//------static stuff-----------------
 	private static BarAccount currentAccount;
-	
+
+	public BarAccount() {
+	}
+
 	public static void createNewBarAccount() {
 		
 		currentAccount = new BarAccount();
@@ -66,7 +69,7 @@ public class BarAccount extends Observable {
 	public void addNewItem( Item newItem ) {
 		
 		checkList.put( newItem, new ArrayList< Person >() );
-		itemRepository.add( newItem );
+		itemRepository.add(newItem);
 		this.updateObservers();
 	}
 
@@ -200,7 +203,7 @@ public class BarAccount extends Observable {
     	Item item;
     	
 		try {
-			fis = context.openFileInput( FILENAME );
+			fis = context.openFileInput(FILENAME);
 			dis = new DataInputStream( fis );
 
 	    	len = dis.readInt();
@@ -211,7 +214,7 @@ public class BarAccount extends Observable {
 	    		cost = dis.readFloat();
 	    		
 	    		item = new Item( str, cost );
-	    		addNewItem( item );
+	    		addNewItem(item);
 	    	}			
 			
 	    	len = dis.readInt();
@@ -220,13 +223,13 @@ public class BarAccount extends Observable {
 
 	    		str = dis.readUTF();
 	    		person = new Person( str );
-	    		this.addNewPerson( person );
+	    		this.addNewPerson(person);
 	    		len2 = dis.readInt();
 	    		
 	    		for ( int d = 0; d < len2; ++d ) {
 		    		id = dis.readInt();
 		    		item = itemRepository.get( id );
-		    		purchase( person, item );
+		    		purchase(person, item);
 	    		}
 	    	}
 	    	
@@ -253,5 +256,32 @@ public class BarAccount extends Observable {
 		}
 
 		return toReturn;
+	}
+
+	BarAccount( Parcel in ) {
+
+		createNewBarAccount();
+
+		if ( in != null ) {
+			getCurrentBarAccount().people = in.readArrayList(Person.class.getClassLoader());
+			getCurrentBarAccount().itemRepository = in.readArrayList(Item.class.getClassLoader());
+			getCurrentBarAccount().checkList = in.readHashMap(Item.class.getClassLoader());
+		}
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int i) {
+		parcel.writeList( people );
+		parcel.writeList( itemRepository );
+		parcel.writeMap( checkList );
+	}
+
+	public static void createFrom(Parcelable state) {
+		currentAccount = (BarAccount) state;
 	}
 }

@@ -1,6 +1,5 @@
-package br.odb.myshare;
+package br.odb.myshare.recyclerview.person;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,8 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import br.odb.myshare.R;
 import br.odb.myshare.datamodel.BarAccount;
-import br.odb.myshare.datamodel.Person;
 
 /**
  * A fragment representing a list of Items.

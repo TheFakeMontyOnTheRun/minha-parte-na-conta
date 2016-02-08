@@ -1,4 +1,4 @@
-package br.odb.myshare;
+package br.odb.myshare.recyclerview.product;
 
 
 import android.app.Fragment;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import br.odb.myshare.R;
 import br.odb.myshare.datamodel.BarAccount;
 import br.odb.myshare.datamodel.Item;
-import br.odb.myshare.datamodel.Person;
 
 
 /**
@@ -34,7 +34,7 @@ public class ViewProduct extends DialogFragment implements View.OnClickListener 
 
         //this is getting ridiculous
         Bundle bundle = new Bundle();
-        bundle.putSerializable( "product", item );
+        bundle.putParcelable( "product", item );
         thisDialog.setArguments( bundle );
     }
 
@@ -42,7 +42,7 @@ public class ViewProduct extends DialogFragment implements View.OnClickListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.product = (Item) getArguments().getSerializable( "product");
+        this.product = (Item) getArguments().getParcelable( "product");
     }
 
     @Override
